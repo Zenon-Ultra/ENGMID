@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1과: Embrace Connections - 문장 순서 배열 연습</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .exercise-container {
+            padding: 30px 20px;
+        }
+
+        .exercise-select select {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            min-width: 300px;
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .back-btn {
+                left: 15px;
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .header {
+                padding: 25px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .exercise-container {
+                padding: 20px 15px;
+            }
+
+            .exercise-select select {
+                min-width: 250px;
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                margin: 5px;
+            }
+
+            .sentence-item {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .drop-zone {
+                padding: 15px;
+                min-height: 60px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-btn {
+                left: 10px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .header {
+                padding: 20px 10px;
+            }
+
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .exercise-container {
+                padding: 15px 10px;
+            }
+
+            .exercise-select select {
+                min-width: 200px;
+                font-size: 13px;
+            }
+
+            .btn {
+                padding: 8px 15px;
+                font-size: 13px;
+            }
+
+            .sentence-item {
+                padding: 10px;
+                font-size: 13px;
+            }
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .exercise-info {
+            background: #f8f9fa;
+            border-left: 5px solid #FF6B6B;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .exercise-select {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .exercise-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .exercise-area {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .scrambled-sentences, .ordered-sentences {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        .scrambled-sentences h3, .ordered-sentences h3 {
+            color: #FF6B6B;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #FF6B6B;
+            padding-bottom: 5px;
+        }
+
+        .sentence-item {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            position: relative;
+            line-height: 1.5;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .sentence-item:hover {
+            border-color: #FF6B6B;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .sentence-item:active {
+            transform: scale(0.98);
+        }
+
+        .sentence-item.selected {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .drop-zone {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 5px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            transition: all 0.3s ease;
+            font-style: italic;
+            cursor: pointer;
+        }
+
+        .drop-zone:hover {
+            border-color: #FF6B6B;
+            background-color: rgba(255, 107, 107, 0.1);
+            color: #FF6B6B;
+        }
+
+        .drop-zone.highlight {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.1);
+            color: #007bff;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+        }
+
+        .score-display {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .feedback {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            opacity: 1;
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(45deg, #dc3545, #fd7e14);
+            color: white;
+            opacity: 1;
+        }
+
+        .correct-sentence {
+            border-color: #28a745 !important;
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        .incorrect-sentence {
+            border-color: #dc3545 !important;
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="main.html" class="back-btn">← 과 선택</a>
+            <h1>🎵 1과: Embrace Connections</h1>
+            <p>A Band United by a Name - 영어 문장들을 올바른 순서로 배열해보세요!</p>
+        </div>
+
+        <div class="exercise-container">
+            <div class="exercise-info">
+                <h3>📚 연습 방법</h3>
+                <p>1. 아래에서 연습할 문단을 선택하세요<br>
+                2. 왼쪽의 문장을 클릭해서 선택한 후, 오른쪽의 원하는 위치를 클릭하세요<br>
+                3. 잘못 배치한 문장은 클릭해서 다시 왼쪽으로 돌려보낼 수 있습니다<br>
+                4. '정답 확인' 버튼을 눌러 결과를 확인하세요</p>
+            </div>
+
+            <div class="exercise-select">
+                <select id="exerciseSelect">
+                    <option value="">연습할 문단을 선택하세요</option>
+                    <option value="introduction">Introduction (자기 소개) - 6문장</option>
+                    <option value="unexpected_connection">An Unexpected Connection (예상치 못한 연결) - 8문장</option>
+                    <option value="virtual_factory">The Virtual Music Factory (가상 음악 공장) - 7문장</option>
+                    <option value="long_distance">Long-Distance Friendship (원거리 우정) - 8문장</option>
+                    <option value="band_reflection">Band Reflection (밴드에 대한 소회) - 6문장</option>
+                </select>
+            </div>
+
+            <div class="controls">
+                <button class="btn" id="shuffleBtn" disabled>다시 섞기</button>
+                <button class="btn" id="checkBtn" disabled>정답 확인</button>
+                <button class="btn" id="resetBtn" disabled>초기화</button>
+            </div>
+
+            <div class="score-display" id="scoreDisplay" style="display: none;">
+                점수: <span id="score">0</span>/100
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="exercise-area" id="exerciseArea" style="display: none;">
+                <div class="scrambled-sentences">
+                    <h3>🔀 Scrambled Sentences</h3>
+                    <div id="scrambledContainer"></div>
+                </div>
+
+                <div class="ordered-sentences">
+                    <h3>✅ Correct Order</h3>
+                    <div id="orderedContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exercises = {
+            introduction: [
+                "My name is Lee Saem.",
+                "My first name has an impressive meaning in Korean: \"a source of power and vitality.\"",
+                "Since Saem sounds like Sam, I decided to make that my English name.",
+                "Growing up, I thought Lee was a common last name only in Korea.",
+                "Little did I know that it's actually common in many other countries, too.",
+                "When I searched \"Sam Lee\" on a social media website, I was amazed at what I saw."
+            ],
+            unexpected_connection: [
+                "There were so many people all over the world with that name!",
+                "Just for fun, I randomly chose several Sam Lees and sent them friend requests.",
+                "A lot of them accepted my friend request.",
+                "While looking through their profiles, I noticed something interesting.",
+                "Several Sam Lees of various ages and nationalities were interested in music.",
+                "There was a Sam Lee in his mid-30s from Singapore who enjoyed singing and writing lyrics.",
+                "And there was a 42-year-old Canadian Sam Lee who was a drummer.",
+                "Finally, there was an American Sam Lee who played the electric guitar."
+            ],
+            virtual_factory: [
+                "Suddenly, I had a great idea.",
+                "I sent a message to all three.",
+                "Here is what I wrote: \"Hi! I'm Sam Lee from Korea. I write songs and play the keyboard. How about making a virtual band called The Sam Lees?\"",
+                "To my surprise, all three eagerly agreed.",
+                "That was the start of our band's journey.",
+                "We tried to practice once a week through a video chat app, but we encountered several problems.",
+                "So we put our heads together and devised a better way of playing music."
+            ],
+            long_distance: [
+                "We decided to assemble the songs as if we were working in a virtual music factory.",
+                "After we decided on a song, I would play it on my keyboard and send it to Singaporean Sam.",
+                "He would sing along with the keyboard and send the recording to American Sam.",
+                "Then American Sam would add his guitar part, and Samantha would finish the song with her drumming.",
+                "When it came to choosing songs to play, we took turns.",
+                "Since each of us prefers a different genre of music and comes from a different culture, we all ended up learning a lot about different kinds of music.",
+                "It was interesting and a lot of fun.",
+                "Shortly after we started the band, a global pandemic began."
+            ],
+            band_reflection: [
+                "Our band is something really special.",
+                "Never did we expect that we would build such strong relationships with one another.",
+                "After all, we don't come from similar backgrounds, nor have we had the same life experiences.",
+                "Yet we now talk about almost everything together, including the hardships we face in life.",
+                "I think it's been really valuable to get advice from people with such different perspectives.",
+                "Four random people became great friends simply because of our names."
+            ]
+        };
+
+        let currentExercise = [];
+        let correctOrder = [];
+        let userOrder = [];
+        let selectedSentence = null;
+
+        const exerciseSelect = document.getElementById('exerciseSelect');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const checkBtn = document.getElementById('checkBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const exerciseArea = document.getElementById('exerciseArea');
+        const scrambledContainer = document.getElementById('scrambledContainer');
+        const orderedContainer = document.getElementById('orderedContainer');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const scoreElement = document.getElementById('score');
+        const feedback = document.getElementById('feedback');
+
+        exerciseSelect.addEventListener('change', function() {
+            const selectedExercise = this.value;
+            if (selectedExercise) {
+                loadExercise(selectedExercise);
+            }
+        });
+
+        shuffleBtn.addEventListener('click', shuffleSentences);
+        checkBtn.addEventListener('click', checkAnswer);
+        resetBtn.addEventListener('click', resetExercise);
+
+        function loadExercise(exerciseKey) {
+            currentExercise = [...exercises[exerciseKey]];
+            correctOrder = [...currentExercise];
+            userOrder = [];
+            selectedSentence = null;
+
+            shuffleSentences();
+            exerciseArea.style.display = 'block';
+            shuffleBtn.disabled = false;
+            resetBtn.disabled = false;
+            scoreDisplay.style.display = 'none';
+            hideFeedback();
+        }
+
+        function shuffleSentences() {
+            const shuffled = [...currentExercise];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+
+            displayScrambledSentences(shuffled);
+            createDropZones();
+            checkBtn.disabled = true;
+            userOrder = [];
+            selectedSentence = null;
+        }
+
+        function displayScrambledSentences(sentences) {
+            scrambledContainer.innerHTML = '';
+            sentences.forEach((sentence, index) => {
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'sentence-item';
+                sentenceDiv.textContent = sentence;
+                sentenceDiv.dataset.sentence = sentence;
+
+                sentenceDiv.addEventListener('click', function() {
+                    selectSentence(this);
+                });
+
+                scrambledContainer.appendChild(sentenceDiv);
+            });
+        }
+
+        function selectSentence(element) {
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
+            element.classList.add('selected');
+            selectedSentence = element;
+
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.classList.add('highlight');
+            });
+
+            showFeedback('선택된 문장을 배치할 위치를 클릭하세요!', 'correct');
+        }
+
+        function createDropZones() {
+            orderedContainer.innerHTML = '';
+            for (let i = 0; i < currentExercise.length; i++) {
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.textContent = `문장 ${i + 1}을 여기에 배치하세요`;
+                dropZone.dataset.position = i;
+
+                dropZone.addEventListener('click', function() {
+                    handleDropZoneClick(this);
+                });
+
+                orderedContainer.appendChild(dropZone);
+            }
+        }
+
+        function handleDropZoneClick(dropZone) {
+            if (!selectedSentence) {
+                showFeedback('먼저 왼쪽에서 문장을 선택하세요!', 'incorrect');
+                return;
+            }
+
+            const sentence = selectedSentence.dataset.sentence;
+            const position = parseInt(dropZone.dataset.position);
+
+            const sentenceDiv = document.createElement('div');
+            sentenceDiv.className = 'sentence-item';
+            sentenceDiv.textContent = sentence;
+            sentenceDiv.dataset.sentence = sentence;
+            sentenceDiv.dataset.position = position;
+
+            sentenceDiv.addEventListener('click', function() {
+                returnSentence(this);
+            });
+
+            dropZone.parentNode.replaceChild(sentenceDiv, dropZone);
+            selectedSentence.remove();
+            selectedSentence = null;
+
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
+            updateUserOrder();
+            hideFeedback();
+        }
+
+        function returnSentence(sentenceElement) {
+            const position = parseInt(sentenceElement.dataset.position);
+            const sentence = sentenceElement.dataset.sentence;
+
+            const dropZone = document.createElement('div');
+            dropZone.className = 'drop-zone';
+            dropZone.textContent = `문장 ${position + 1}을 여기에 배치하세요`;
+            dropZone.dataset.position = position;
+
+            dropZone.addEventListener('click', function() {
+                handleDropZoneClick(this);
+            });
+
+            sentenceElement.parentNode.replaceChild(dropZone, sentenceElement);
+
+            const newSentenceDiv = document.createElement('div');
+            newSentenceDiv.className = 'sentence-item';
+            newSentenceDiv.textContent = sentence;
+            newSentenceDiv.dataset.sentence = sentence;
+
+            newSentenceDiv.addEventListener('click', function() {
+                selectSentence(this);
+            });
+
+            scrambledContainer.appendChild(newSentenceDiv);
+
+            selectedSentence = null;
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
+            updateUserOrder();
+        }
+
+        function updateUserOrder() {
+            userOrder = [];
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            placedSentences.forEach(sentence => {
+                const position = parseInt(sentence.dataset.position);
+                userOrder[position] = sentence.dataset.sentence;
+            });
+
+            const hasEmptySlots = userOrder.includes(undefined) || userOrder.length !== currentExercise.length;
+            checkBtn.disabled = hasEmptySlots;
+        }
+
+        function checkAnswer() {
+            let correct = 0;
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            
+            placedSentences.forEach((sentence, index) => {
+                sentence.classList.remove('correct-sentence', 'incorrect-sentence');
+                const position = parseInt(sentence.dataset.position);
+                const userSentence = sentence.dataset.sentence;
+                const correctSentence = correctOrder[position];
+                
+                if (userSentence === correctSentence) {
+                    sentence.classList.add('correct-sentence');
+                    correct++;
+                } else {
+                    sentence.classList.add('incorrect-sentence');
+                }
+            });
+
+            const score = Math.round((correct / currentExercise.length) * 100);
+            scoreElement.textContent = score;
+            scoreDisplay.style.display = 'block';
+
+            if (score === 100) {
+                showFeedback('🎉 완벽합니다! 모든 문장을 올바르게 배열했습니다!', 'correct');
+            } else if (score >= 70) {
+                showFeedback(`👍 잘했습니다! ${correct}/${currentExercise.length}개 정답입니다.`, 'correct');
+            } else {
+                showFeedback(`💪 다시 한번 시도해보세요! ${correct}/${currentExercise.length}개 정답입니다.`, 'incorrect');
+            }
+        }
+
+        function resetExercise() {
+            const selectedExercise = exerciseSelect.value;
+            if (selectedExercise) {
+                loadExercise(selectedExercise);
+            }
+            hideFeedback();
+        }
+
+        function showFeedback(message, type) {
+            feedback.textContent = message;
+            feedback.className = `feedback ${type}`;
+        }
+
+        function hideFeedback() {
+            feedback.className = 'feedback';
+        }
+    </script>
+</body>
+</html>

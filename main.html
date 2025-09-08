@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영어 문장 순서 배열 연습</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #2E8B57, #228B22);
+            color: white;
+            padding: 40px 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .lessons-container {
+            padding: 50px 20px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .header p {
+                font-size: 1.1em;
+            }
+            
+            .lessons-container {
+                padding: 30px 15px;
+            }
+            
+            .lesson-card {
+                padding: 20px;
+                margin: 15px 0;
+            }
+            
+            .lesson-number {
+                font-size: 2.5em;
+            }
+            
+            .lesson-title {
+                font-size: 1.3em;
+            }
+            
+            .lesson-subtitle {
+                font-size: 1em;
+            }
+            
+            .lesson-description {
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .header p {
+                font-size: 1em;
+            }
+            
+            .lesson-card {
+                padding: 15px;
+            }
+            
+            .lesson-number {
+                font-size: 2em;
+            }
+            
+            .lesson-title {
+                font-size: 1.2em;
+            }
+            
+            .lesson-subtitle {
+                font-size: 0.95em;
+            }
+            
+            .lesson-description {
+                font-size: 0.85em;
+            }
+        }
+
+        .lesson-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 3px solid #e9ecef;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: #28a745;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+        .lesson-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .lesson-card:hover .lesson-number {
+            color: white;
+        }
+
+        .lesson-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .lesson-subtitle {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .lesson-card:hover .lesson-subtitle {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .lesson-description {
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: #777;
+        }
+
+        .lesson-card:hover .lesson-description {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .creator-credit {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+            font-weight: bold;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 영어 문장 순서 배열 연습</h1>
+            <p>연습할 과를 선택하세요</p>
+        </div>
+
+        <div class="lessons-container">
+            <a href="lesson1.html" class="lesson-card">
+                <div class="lesson-number">1</div>
+                <div class="lesson-title">Embrace Connections</div>
+                <div class="lesson-subtitle">A Band United by a Name</div>
+                <div class="lesson-description">
+                    이름으로 시작된 특별한 인연과<br>
+                    가상 밴드의 우정 이야기를 배워보세요
+                </div>
+            </a>
+
+            <a href="lesson2.html" class="lesson-card">
+                <div class="lesson-number">2</div>
+                <div class="lesson-title">From Problems to Solutions</div>
+                <div class="lesson-subtitle">Bringing New Life to Old Cities</div>
+                <div class="lesson-description">
+                    네덜란드의 혁신적인 도시 재생 프로젝트로<br>
+                    창의적인 문제 해결 방법을 살펴보세요
+                </div>
+            </a>
+
+            <a href="olympus.html" class="lesson-card">
+                <div class="lesson-number">📚</div>
+                <div class="lesson-title">올림포스 영어독해의 기본</div>
+                <div class="lesson-subtitle">Ch.03 Unit 09</div>
+                <div class="lesson-description">
+                    행동과 선택, 환경 적응, 상대적 부와 행복을 주제로<br>
+                    고급 영어 독해 실력을 향상시켜보세요
+                </div>
+            </a>
+
+            <a href="mocktest.html" class="lesson-card">
+                <div class="lesson-number">📝</div>
+                <div class="lesson-title">모의고사 연습</div>
+                <div class="lesson-subtitle">20, 21, 23, 24, 31, 32, 33, 38번 문제</div>
+                <div class="lesson-description">
+                    최신 모의고사 문제들을 풀어보며<br>
+                    실전 감각을 키워보세요
+                </div>
+            </a>
+        </div>
+
+        <div class="footer">
+            💡 각 과의 문장들을 올바른 순서로 배열하여 영어 실력을 향상시켜보세요!
+            <div class="creator-credit">
+                Created by Sungwoo ✨
+            </div>
+        </div>
+    </div>
+</body>
+</html>

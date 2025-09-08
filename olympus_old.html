@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>올림포스 영어독해의 기본 - 문장 순서 배열 연습</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #6f42c1, #e83e8c);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .exercise-container {
+            padding: 30px 20px;
+        }
+
+        .exercise-info {
+            background: #f8f9fa;
+            border-left: 5px solid #6f42c1;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .exercise-select {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .exercise-select select {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            min-width: 300px;
+            max-width: 100%;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #6f42c1, #e83e8c);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(111, 66, 193, 0.4);
+        }
+
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .exercise-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .back-btn {
+                left: 15px;
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .header {
+                padding: 25px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .exercise-container {
+                padding: 20px 15px;
+            }
+
+            .exercise-select select {
+                min-width: 250px;
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                margin: 5px;
+            }
+
+            .sentence-item {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .drop-zone {
+                padding: 15px;
+                min-height: 60px;
+                font-size: 14px;
+            }
+
+            .exercise-area {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-btn {
+                left: 10px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .header {
+                padding: 20px 10px;
+            }
+
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .exercise-container {
+                padding: 15px 10px;
+            }
+
+            .exercise-select select {
+                min-width: 200px;
+                font-size: 13px;
+            }
+
+            .btn {
+                padding: 8px 15px;
+                font-size: 13px;
+            }
+
+            .sentence-item {
+                padding: 10px;
+                font-size: 13px;
+            }
+        }
+
+        .scrambled-sentences, .ordered-sentences {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        .scrambled-sentences h3, .ordered-sentences h3 {
+            color: #6f42c1;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #6f42c1;
+            padding-bottom: 5px;
+        }
+
+        .sentence-item {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            position: relative;
+            line-height: 1.5;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .sentence-item:hover {
+            border-color: #6f42c1;
+            box-shadow: 0 4px 12px rgba(111, 66, 193, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .sentence-item:active {
+            transform: scale(0.98);
+        }
+
+        .sentence-item.selected {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .drop-zone {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 5px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            transition: all 0.3s ease;
+            font-style: italic;
+            cursor: pointer;
+        }
+
+        .drop-zone:hover {
+            border-color: #6f42c1;
+            background-color: rgba(111, 66, 193, 0.1);
+            color: #6f42c1;
+        }
+
+        .drop-zone.highlight {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.1);
+            color: #007bff;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+        }
+
+        .score-display {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .feedback {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            opacity: 1;
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(45deg, #dc3545, #fd7e14);
+            color: white;
+            opacity: 1;
+        }
+
+        .correct-sentence {
+            border-color: #28a745 !important;
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        .incorrect-sentence {
+            border-color: #dc3545 !important;
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="main.html" class="back-btn">← 과 선택</a>
+            <h1>📚 올림포스 영어독해의 기본</h1>
+            <p>Ch.01 & Ch.03 Units - 영어 문장들을 올바른 순서로 배열해보세요!</p>
+        </div>
+
+        <div class="exercise-container">
+            <div class="exercise-info">
+                <h3>📚 연습 방법</h3>
+                <p>1. 아래에서 연습할 지문을 선택하세요<br>
+                2. 왼쪽의 문장을 클릭해서 선택한 후, 오른쪽의 원하는 위치를 클릭하세요<br>
+                3. 잘못 배치한 문장은 클릭해서 다시 왼쪽으로 돌려보낼 수 있습니다<br>
+                4. '정답 확인' 버튼을 눌러 결과를 확인하세요</p>
+            </div>
+
+            <div class="exercise-select">
+                <select id="exerciseSelect">
+                    <option value="">연습할 지문을 선택하세요</option>
+                    <option value="ch01_unit03_1">Ch.01 Unit 03-1: 도시 녹화의 증가 이유 - 8문장</option>
+                    <option value="ch01_unit03_2">Ch.01 Unit 03-2: 메모 작성의 중요성 - 7문장</option>
+                    <option value="ch01_unit03_3">Ch.01 Unit 03-3: 남녀 뇌의 차이와 유사성 - 6문장</option>
+                    <option value="ch01_unit04_1">Ch.01 Unit 04-1: 야생에서의 위험과 진실 - 7문장</option>
+                    <option value="ch01_unit04_2">Ch.01 Unit 04-2: 건축 경진대회에 대한 양면성 - 6문장</option>
+                    <option value="ch01_unit04_3">Ch.01 Unit 04-3: 무의식적 인지 실험 - 8문장</option>
+                    <option value="ch01_unit05_1">Ch.01 Unit 05-1: 바다거북과 도시화의 영향 - 6문장</option>
+                    <option value="ch01_unit05_2">Ch.01 Unit 05-2: 이민자들의 창업 성공 - 7문장</option>
+                    <option value="ch01_unit05_3">Ch.01 Unit 05-3: 쓰레기의 재활용과 예술 - 6문장</option>
+                    <option value="ch03_unit08_1">Ch.03 Unit 08-1: 어린이의 역할놀이 발달 - 8문장</option>
+                    <option value="ch03_unit08_2">Ch.03 Unit 08-2: 언어와 문화의 상호작용 - 7문장</option>
+                    <option value="ch03_unit08_3">Ch.03 Unit 08-3: 창의적 미술 교육 방법 - 8문장</option>
+                </select>
+            </div>
+
+            <div class="controls">
+                <button class="btn" id="shuffleBtn" disabled>다시 섞기</button>
+                <button class="btn" id="checkBtn" disabled>정답 확인</button>
+                <button class="btn" id="resetBtn" disabled>초기화</button>
+            </div>
+
+            <div class="score-display" id="scoreDisplay" style="display: none;">
+                점수: <span id="score">0</span>/100
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="exercise-area" id="exerciseArea" style="display: none;">
+                <div class="scrambled-sentences">
+                    <h3>🔀 Scrambled Sentences</h3>
+                    <div id="scrambledContainer"></div>
+                </div>
+
+                <div class="ordered-sentences">
+                    <h3>✅ Correct Order</h3>
+                    <div id="orderedContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exercises = {
+            unit09_1: [
+                "Action takes place by choosing which ends shall be satisfied by the employment of means.",
+                "Time is scarce for man only because whichever ends he chooses to satisfy, there are others that must remain unsatisfied.",
+                "When we must use a means so that some ends remain unsatisfied, the necessity for a choice among ends arises.",
+                "For example, Jones is engaged in watching a baseball game on television.",
+                "He is faced with the choice of spending the next hour in: (a) continuing to watch the baseball game, (b) playing bridge, or (c) going for a drive.",
+                "He would like to do all three of these things, but his means (time) is insufficient.",
+                "As a result, he must choose; one end can be satisfied, but the others must go unfulfilled.",
+                "Suppose that he decides on course A.",
+                "This is a clear indication that he has ranked the satisfaction of end A higher than the satisfaction of ends B or C."
+            ],
+            unit09_2: [
+                "Environmental stresses cause changes in the genetic makeup of a population by favoring certain gene variants more than others.",
+                "This is, in fact, the normal way that populations can adapt rapidly to changes in their environment without mutations being required to produce new adaptations.",
+                "It is also the reason why populations with genetic diversity are more likely to survive in the face of change.",
+                "However, there is another side of this phenomenon related to human impacts on populations.",
+                "Toxins added to the environment create selection pressure for individuals that are more tolerant of the toxins.",
+                "One negative impact of this is that it can reduce the genetic diversity of a population.",
+                "Another problem occurs if the organism is a pest and the toxin is contained in, for example, a pesticide.",
+                "As a result of the selection pressure, the population seems to develop tolerance to the toxin.",
+                "The pesticide then becomes less effective."
+            ],
+            unit09_3: [
+                "People's happiness depends not on their absolute wealth, but rather on their wealth relative to those around them.",
+                "In one experiment, two capuchin monkeys were initially perfectly content with a reward of cucumbers when they successfully performed a task.",
+                "But when one monkey was later given tastier grapes as a reward, the monkey receiving plain old cucumbers became enraged, angrily throwing the previously satisfactory salad vegetable at its handler.",
+                "The monkeys' economy had grown, since grapes are better than cucumbers.",
+                "But the resulting inequality brought only discontent.",
+                "Humans are the same.",
+                "When employees at the University of California were given information about the salaries of their peers, those discovering they were paid below the average suddenly became less satisfied and more likely to seek a new job.",
+                "The attitudes of those earning above the average were happily unaffected."
+            ],
+            unit10_1: [
+                "Our complex brains might have evolved to establish strong social bonds, but defining what should be part of that social group appears to be rather flexible.",
+                "For instance, some people treat their pets as if they are members of their family, and believe they can relate to the pets' needs, desires, fears and dreams.",
+                "Others see animals as distinct from humans and wouldn't think of talking to one as if it was a friend.",
+                "Many people keep the ashes of a deceased loved one nearby, believing those ashes continue to serve as some link to their existence.",
+                "Even if inanimate objects don't have a distinct personality, many of us still attribute certain human characteristics to non-human objects or beings, such as pets, dolls or even cars and memorabilia."
+            ],
+            unit10_2: [
+                "Although the wish to be alone is often strong, its intensity varies from person to person.",
+                "An equally impelling impulse, though, is to seek the company of others and to spend extended periods of time sharing activities.",
+                "In these periods we exchange information and feelings in both conversational and non-verbal forms (facial expressions, eye contact, gestures, touching, and so on).",
+                "We need other people to provide us with love, support, approval, bodily contact, reassurance, physical help and a myriad of other practical, physical and emotional needs.",
+                "In a very basic sense we need others to confirm that we are there, that we exist and that we have an identity that is unique and separate from anyone else.",
+                "Thus, we generally cannot exist for too long without seeking companionship."
+            ],
+            unit10_3: [
+                "At one end of the spectrum of transformations was the forest gardening as practiced by the peoples of New Guinea and Amazonia that mimicked natural growth and left minimal traces on the land.",
+                "At the other end was monoculture: cultivating only one species of plant or raising only one species of animal.",
+                "The beginnings of monoculture can be seen in the wheat fields of the Middle East, the rice paddies of China, and the herds of sheep and goats on the Eurasian steppe.",
+                "Biologically speaking, these species suddenly became very successful, measured by their rates of survival and reproduction.",
+                "So did other, unwanted species.",
+                "Crops that ripened or were stored after harvesting attracted rats, mice, sparrows, and roaches.",
+                "Water pools provided habitats for mosquitoes.",
+                "Garbage and human or animal waste attracted flies.",
+                "Thanks to humans, weeds and pests were also biological winners."
+            ],
+            unit11_1: [
+                "The reason pessimists often sound smart is that they can avoid being 'wrong' by moving the goalposts.",
+                "When a doomer predicts that the world will end in five years, and it doesn't, they just shift the date.",
+                "The American biologist Paul R. Ehrlich, author of the 1968 book The Population Bomb, has been doing this for decades.",
+                "In 1970 he said that 'sometime in the next 15 years, the end will come.",
+                "And by \"the end\" I mean an utter breakdown of the capacity of the planet to support humanity.'",
+                "Of course, that was terribly wrong.",
+                "He had another go: he said that 'England will not exist in the year 2000.'",
+                "Wrong again.",
+                "Ehrlich will keep pushing this deadline back.",
+                "A pessimistic stance is a safe one."
+            ],
+            unit11_2: [
+                "We all understand differently - this much is obvious.",
+                "The reason we understand differently is that our memories are different.",
+                "Our experiences simply are not yours.",
+                "In order to understand anything, we must find the closest item in memory to which it relates.",
+                "Schank and Abelson claimed that understanding required one to find the correct knowledge structure, and to use that structure to create expectations for what events were likely to take place, so that new events could be understood in terms of what was normal.",
+                "Thus, when a story about a cocktail party was being told, an understander brought out his cocktail party script which told him about what ordinarily happens at cocktail parties, and he used that script to guide his understanding of the story he was about to hear."
+            ],
+            unit11_3: [
+                "Of all the colours of the rainbow the one that makes the greatest impact on the eye is red.",
+                "There is something instantly arresting about the colour of fire and danger.",
+                "It is charged with alarm and urgency.",
+                "We have red fire engines, red warning lights and the Red Cross.",
+                "If we want something to be seen from a distance, such as a post box or (formerly) a telephone kiosk, we paint it red.",
+                "Perhaps it is because red is so obvious that few wild animals are truly red: even the so-called Red Squirrel and the Red Deer are really shades of reddish-brown that conceal rather than advertise.",
+                "Relatively few butterflies are red either.",
+                "In Britain, and indeed, in all mainland Europe, only one species has a pattern of full-on bright red, like a splash of blood: the Red Admiral."
+            ],
+            unit12_1: [
+                "Sometimes traditions may change or appear to end because of convenience or changes in taste.",
+                "For example, to make a pumpkin pie, a cook used to have to first find a pumpkin of suitable size, cut it, peel it, cook it, and mash it, all before combining it with other ingredients and pouring the mixture into a crust.",
+                "Now, cooks may choose to use canned pumpkin from the supermarket and cut out a great deal of labor and time.",
+                "Another changing food tradition is that many families no longer make refried beans by cooking them in lard and choose instead to use vegetable shortening.",
+                "Perhaps this change came about because the family has come to prefer the taste of beans without lard, because concepts of healthy cooking have changed, or because someone in the family has heart disease or high cholesterol."
+            ],
+            unit12_2: [
+                "Forecasters who predict resource depletion often ignore or underestimate the power of markets.",
+                "For example, some forecasters use a current reserve index to estimate how long a resource would last.",
+                "The current reserve index divides the current known reserve of a resource by the amount currently used each period.",
+                "So, if we know of 445 billion barrels of oil, and we are currently using 15 billion barrels per year, the index indicates that we will run out of oil in about 30 years.",
+                "Some studies, like the Limits to Growth, further assume that demand will increase each year, thus depleting resources even faster.",
+                "But what they fail to see is that if markets are allowed to do their usual duty, that is, prices rise as depletion occurs, resources will last much longer."
+            ],
+            unit12_3: [
+                "Project leaders should not be surprised when disagreements emerge within the team.",
+                "In fact, they should expect them.",
+                "If they remain hidden, the leader may even want to seek them out for at least two reasons.",
+                "First, different views can bring with them good ideas about the project and how it might be run.",
+                "Although snap decisions about project changes should be avoided, leaders should be open to new and better ways to run the project.",
+                "Second, when conflicting viewpoints are found, they are more easily resolved earlier rather than later in the project.",
+                "Although team members may disagree about one or another aspect of the project, most simply want their ideas considered and resolved.",
+                "The team tends to look to the project leader to play the lead role in resolving differences, and members will generally defer to the leader if they believe their views have been given due consideration."
+            ]
+        };
+
+        let currentExercise = [];
+        let correctOrder = [];
+        let userOrder = [];
+        let selectedSentence = null;
+
+        const exerciseSelect = document.getElementById('exerciseSelect');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const checkBtn = document.getElementById('checkBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const exerciseArea = document.getElementById('exerciseArea');
+        const scrambledContainer = document.getElementById('scrambledContainer');
+        const orderedContainer = document.getElementById('orderedContainer');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const scoreElement = document.getElementById('score');
+        const feedback = document.getElementById('feedback');
+
+        exerciseSelect.addEventListener('change', function() {
+            const selectedExercise = this.value;
+            if (selectedExercise) {
+                loadExercise(selectedExercise);
+            }
+        });
+
+        shuffleBtn.addEventListener('click', shuffleSentences);
+        checkBtn.addEventListener('click', checkAnswer);
+        resetBtn.addEventListener('click', resetExercise);
+
+        function loadExercise(exerciseKey) {
+            currentExercise = [...exercises[exerciseKey]];
+            correctOrder = [...currentExercise];
+            userOrder = [];
+            selectedSentence = null;
+
+            shuffleSentences();
+            exerciseArea.style.display = 'block';
+            shuffleBtn.disabled = false;
+            resetBtn.disabled = false;
+            scoreDisplay.style.display = 'none';
+            hideFeedback();
+        }
+
+        function shuffleSentences() {
+            const shuffled = [...currentExercise];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+
+            displayScrambledSentences(shuffled);
+            createDropZones();
+            checkBtn.disabled = true;
+            userOrder = [];
+            selectedSentence = null;
+        }
+
+        function displayScrambledSentences(sentences) {
+            scrambledContainer.innerHTML = '';
+            sentences.forEach((sentence, index) => {
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'sentence-item';
+                sentenceDiv.textContent = sentence;
+                sentenceDiv.dataset.sentence = sentence;
+
+                sentenceDiv.addEventListener('click', function() {
+                    selectSentence(this);
+                });
+
+                scrambledContainer.appendChild(sentenceDiv);
+            });
+        }
+
+        function selectSentence(element) {
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
+            element.classList.add('selected');
+            selectedSentence = element;
+
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.classList.add('highlight');
+            });
+
+            showFeedback('선택된 문장을 배치할 위치를 클릭하세요!', 'correct');
+        }
+
+        function createDropZones() {
+            orderedContainer.innerHTML = '';
+            for (let i = 0; i < currentExercise.length; i++) {
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.textContent = `문장 ${i + 1}을 여기에 배치하세요`;
+                dropZone.dataset.position = i;
+
+                dropZone.addEventListener('click', function() {
+                    handleDropZoneClick(this);
+                });
+
+                orderedContainer.appendChild(dropZone);
+            }
+        }
+
+        function handleDropZoneClick(dropZone) {
+            if (!selectedSentence) {
+                showFeedback('먼저 왼쪽에서 문장을 선택하세요!', 'incorrect');
+                return;
+            }
+
+            const sentence = selectedSentence.dataset.sentence;
+            const position = parseInt(dropZone.dataset.position);
+
+            const sentenceDiv = document.createElement('div');
+            sentenceDiv.className = 'sentence-item';
+            sentenceDiv.textContent = sentence;
+            sentenceDiv.dataset.sentence = sentence;
+            sentenceDiv.dataset.position = position;
+
+            sentenceDiv.addEventListener('click', function() {
+                returnSentence(this);
+            });
+
+            dropZone.parentNode.replaceChild(sentenceDiv, dropZone);
+            selectedSentence.remove();
+            selectedSentence = null;
+
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
+            updateUserOrder();
+            hideFeedback();
+        }
+
+        function returnSentence(sentenceElement) {
+            const position = parseInt(sentenceElement.dataset.position);
+            const sentence = sentenceElement.dataset.sentence;
+
+            const dropZone = document.createElement('div');
+            dropZone.className = 'drop-zone';
+            dropZone.textContent = `문장 ${position + 1}을 여기에 배치하세요`;
+            dropZone.dataset.position = position;
+
+            dropZone.addEventListener('click', function() {
+                handleDropZoneClick(this);
+            });
+
+            sentenceElement.parentNode.replaceChild(dropZone, sentenceElement);
+
+            const newSentenceDiv = document.createElement('div');
+            newSentenceDiv.className = 'sentence-item';
+            newSentenceDiv.textContent = sentence;
+            newSentenceDiv.dataset.sentence = sentence;
+
+            newSentenceDiv.addEventListener('click', function() {
+                selectSentence(this);
+            });
+
+            scrambledContainer.appendChild(newSentenceDiv);
+
+            selectedSentence = null;
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
+            updateUserOrder();
+            hideFeedback();
+        }
+
+        function updateUserOrder() {
+            userOrder = [];
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            placedSentences.forEach(item => {
+                const position = parseInt(item.dataset.position);
+                userOrder[position] = item.dataset.sentence;
+            });
+
+            const allFilled = userOrder.length === currentExercise.length && 
+                            userOrder.every(item => item !== undefined);
+            checkBtn.disabled = !allFilled;
+        }
+
+        function checkAnswer() {
+            let correctCount = 0;
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+
+            placedSentences.forEach((item, index) => {
+                const position = parseInt(item.dataset.position);
+                const sentence = item.dataset.sentence;
+                const isCorrect = correctOrder[position] === sentence;
+
+                if (isCorrect) {
+                    correctCount++;
+                    item.classList.add('correct-sentence');
+                    item.classList.remove('incorrect-sentence');
+                } else {
+                    item.classList.add('incorrect-sentence');
+                    item.classList.remove('correct-sentence');
+                }
+            });
+
+            const score = Math.round((correctCount / currentExercise.length) * 100);
+            scoreElement.textContent = score;
+            scoreDisplay.style.display = 'block';
+
+            if (score === 100) {
+                showFeedback('완벽합니다! 🎉 모든 문장이 올바른 순서입니다!', 'correct');
+            } else if (score >= 80) {
+                showFeedback(`좋습니다! 👍 ${correctCount}/${currentExercise.length} 문장이 올바른 위치에 있습니다.`, 'correct');
+            } else {
+                showFeedback(`다시 시도해보세요! 💪 ${correctCount}/${currentExercise.length} 문장이 올바른 위치에 있습니다.`, 'incorrect');
+            }
+        }
+
+        function showFeedback(message, type) {
+            feedback.textContent = message;
+            feedback.className = `feedback ${type}`;
+        }
+
+        function hideFeedback() {
+            feedback.className = 'feedback';
+        }
+
+        function resetExercise() {
+            const selectedExercise = exerciseSelect.value;
+            if (selectedExercise) {
+                loadExercise(selectedExercise);
+            }
+        }
+    </script>
+</body>
+</html>

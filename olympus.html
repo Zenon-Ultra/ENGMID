@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>올림포스 영어독해의 기본 - 문장 순서 배열 연습</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #6f42c1, #e83e8c);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .exercise-container {
+            padding: 30px 20px;
+        }
+
+        .exercise-info {
+            background: #f8f9fa;
+            border-left: 5px solid #6f42c1;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .exercise-select {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .exercise-select select {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            min-width: 300px;
+            max-width: 100%;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #6f42c1, #e83e8c);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(111, 66, 193, 0.4);
+        }
+
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .exercise-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .back-btn {
+                left: 15px;
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .header {
+                padding: 25px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .exercise-container {
+                padding: 20px 15px;
+            }
+
+            .exercise-select select {
+                min-width: 250px;
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                margin: 5px;
+            }
+
+            .sentence-item {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .drop-zone {
+                padding: 15px;
+                min-height: 60px;
+                font-size: 14px;
+            }
+
+            .exercise-area {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-btn {
+                left: 10px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .header {
+                padding: 20px 10px;
+            }
+
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .exercise-container {
+                padding: 15px 10px;
+            }
+
+            .exercise-select select {
+                min-width: 200px;
+                font-size: 13px;
+            }
+
+            .btn {
+                padding: 8px 15px;
+                font-size: 13px;
+            }
+
+            .sentence-item {
+                padding: 10px;
+                font-size: 13px;
+            }
+        }
+
+        .scrambled-sentences, .ordered-sentences {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        .scrambled-sentences h3, .ordered-sentences h3 {
+            color: #6f42c1;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #6f42c1;
+            padding-bottom: 5px;
+        }
+
+        .sentence-item {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            position: relative;
+            line-height: 1.5;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .sentence-item:hover {
+            border-color: #6f42c1;
+            box-shadow: 0 4px 12px rgba(111, 66, 193, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .sentence-item:active {
+            transform: scale(0.98);
+        }
+
+        .sentence-item.selected {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .drop-zone {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 5px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            transition: all 0.3s ease;
+            font-style: italic;
+            cursor: pointer;
+        }
+
+        .drop-zone:hover {
+            border-color: #6f42c1;
+            background-color: rgba(111, 66, 193, 0.1);
+            color: #6f42c1;
+        }
+
+        .drop-zone.highlight {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.1);
+            color: #007bff;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+        }
+
+        .score-display {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .feedback {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            opacity: 1;
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(45deg, #dc3545, #fd7e14);
+            color: white;
+            opacity: 1;
+        }
+
+        .correct-sentence {
+            border-color: #28a745 !important;
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        .incorrect-sentence {
+            border-color: #dc3545 !important;
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="main.html" class="back-btn">← 과 선택</a>
+            <h1>📚 올림포스 영어독해의 기본</h1>
+            <p>Ch.01 & Ch.03 Units - 영어 문장들을 올바른 순서로 배열해보세요!</p>
+        </div>
+
+        <div class="exercise-container">
+            <div class="exercise-info">
+                <h3>📚 연습 방법</h3>
+                <p>1. 아래에서 연습할 지문을 선택하세요<br>
+                2. 왼쪽의 문장을 클릭해서 선택한 후, 오른쪽의 원하는 위치를 클릭하세요<br>
+                3. 잘못 배치한 문장은 클릭해서 다시 왼쪽으로 돌려보낼 수 있습니다<br>
+                4. '정답 확인' 버튼을 눌러 결과를 확인하세요</p>
+            </div>
+
+            <div class="exercise-select">
+                <select id="exerciseSelect">
+                    <option value="">연습할 지문을 선택하세요</option>
+                    <option value="ch01_unit03_1">Ch.01 Unit 03-1: 도시 녹화의 증가 이유 - 7문장</option>
+                    <option value="ch01_unit03_2">Ch.01 Unit 03-2: 메모 작성의 중요성 - 6문장</option>
+                    <option value="ch01_unit03_3">Ch.01 Unit 03-3: 남녀 뇌의 차이와 유사성 - 5문장</option>
+                    <option value="ch01_unit04_1">Ch.01 Unit 04-1: 야생에서의 위험과 진실 - 7문장</option>
+                    <option value="ch01_unit04_2">Ch.01 Unit 04-2: 건축 경진대회에 대한 양면성 - 6문장</option>
+                    <option value="ch01_unit04_3">Ch.01 Unit 04-3: 무의식적 인지 실험 - 8문장</option>
+                    <option value="ch01_unit05_1">Ch.01 Unit 05-1: 바다거북과 도시화의 영향 - 6문장</option>
+                    <option value="ch01_unit05_2">Ch.01 Unit 05-2: 이민자들의 창업 성공 - 7문장</option>
+                    <option value="ch01_unit05_3">Ch.01 Unit 05-3: 쓰레기의 재활용과 예술 - 5문장</option>
+                    <option value="ch03_unit08_1">Ch.03 Unit 08-1: 어린이의 역할놀이 발달 - 8문장</option>
+                    <option value="ch03_unit08_2">Ch.03 Unit 08-2: 언어와 문화의 상호작용 - 7문장</option>
+                    <option value="ch03_unit08_3">Ch.03 Unit 08-3: 창의적 미술 교육 방법 - 6문장</option>
+                </select>
+            </div>
+
+            <div class="controls">
+                <button class="btn" id="shuffleBtn" disabled>다시 섞기</button>
+                <button class="btn" id="checkBtn" disabled>정답 확인</button>
+                <button class="btn" id="resetBtn" disabled>초기화</button>
+            </div>
+
+            <div class="score-display" id="scoreDisplay" style="display: none;">
+                점수: <span id="score">0</span>/100
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="exercise-area" id="exerciseArea" style="display: none;">
+                <div class="scrambled-sentences">
+                    <h3>🔀 Scrambled Sentences</h3>
+                    <div id="scrambledContainer"></div>
+                </div>
+
+                <div class="ordered-sentences">
+                    <h3>✅ Correct Order</h3>
+                    <div id="orderedContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exercises = {
+            ch01_unit03_1: [
+                "Why have cities only recently seen a sudden increase in \"greening\" from green roofs to new parks to tree planting to more energy efficient buses despite the fact that sweeping federal environmental legislation was enacted more than 30 years ago?",
+                "Quite simply, city leaders are recognizing that a cleaner environment is needed both to provide residents with a good quality of life and to compete in the global economy.",
+                "America's manufacturing-based economy of the twentieth century has been transformed into a service-based knowledge economy.",
+                "For the information age economy, environmental quality is a major economic asset.",
+                "Skilled workers are increasingly footloose, able to settle just about anywhere there is broadband Internet access, and they are drawn to healthy, aesthetically pleasing environments.",
+                "Moreover, green cities are demonstrating that the alleged trade-off between jobs and the environment is a false dichotomy.",
+                "A quality environment produces jobs; a polluted environment costs jobs."
+            ],
+            ch01_unit03_2: [
+                "The brevity of memos can be wonderful, but you do need to make sure you communicate everything, or you'll just end up creating more work for yourself.",
+                "For example, if you're using a memo to take a telephone message, make sure you include who called and when, what their message was, and how to call them back.",
+                "If you forget any of these details, your memo will be practically pointless.",
+                "As you can see, it's very important not to sacrifice the content of your memo simply because memos are normally brief.",
+                "If you can't fit all of the information you need into a memo, opt instead to write a letter or an e-mail.",
+                "It's better to include all of the information you need to transmit than it is to omit critical details simply for the sake of making your message short."
+            ],
+            ch01_unit03_3: [
+                "It is relatively uncontroversial that there are small structural and functional differences between male and female brains, perhaps contributing to some performance differences on tests of spatial and verbal abilities.",
+                "Of paramount importance, but usually overlooked, is that similarities between the sexes far outweigh differences: differences between men and women are not as large as differences among members of the same sex.",
+                "Even those scientists who have discovered functional performance differences between the brains of males and females are careful to point out that their research is tentative and suggestive.",
+                "And that while their research attends to differences, similarities abound.",
+                "\"Fundamentally, the brains of men and women are more similar than different.\""
+            ],
+            ch01_unit04_1: [
+                "In the complex story of nature's ways, people exploring the wild's twisting paths often discover themselves caught in dangerous situations.",
+                "Bears, cougars, and other wild animals sometimes remind us of their formidable presence.",
+                "Despite the infrequency, there are a considerable number of accumulated instances where these guardians of the wilderness become aggressors, resulting in tragic outcomes for unsuspecting explorers.",
+                "Yet amid these serious situations, a remarkable turn of events occurs, like unexpected notes in a familiar song.",
+                "In Oregon's forests in 1995, a man was found dead, initially blamed on a cougar, but subsequent investigation revealed otherwise.",
+                "Similarly, in 2015, a comparable incident occurred, with initial suspicions falling on a nearby wolf pack.",
+                "However, upon closer investigation, it became apparent that the wolves were innocent bystanders in the man's tragic fate, emphasizing the complexity inherent in such wilderness tragedies."
+            ],
+            ch01_unit04_2: [
+                "Architects are ambivalent about competitions.",
+                "On a practical level, competitions are extremely expensive: entering a large competition can cost millions of dollars.",
+                "More important, competitions oblige the architect to work in a vacuum.",
+                "In later life, I. M. Pei refused to enter competitions, since he considered that the best architecture could emerge only from a considered dialogue between architect and client.",
+                "Nevertheless, the public favors competitions, since they provide an opportunity for young talent to be recognized in a field that tends to privilege age and experience.",
+                "Everyone loves a horse race except, perhaps, the horses."
+            ],
+            ch01_unit04_3: [
+                "In an experiment conducted by Antoine Bechara, participants were given $2,000 in play money and four decks of cards and were told that they were to use them in a game.",
+                "Different individual cards won or lost different sums of money.",
+                "They should just go ahead and turn the cards and try to win as much money as they could.",
+                "But the cards were not random. In fact, some of the piles were far more profitable than others.",
+                "On average, it took the gamblers around fifty card-turns before they began to report a conscious 'hunch' that some of the decks were more profitable.",
+                "But when their behaviour was analysed, Bechara discovered something remarkable.",
+                "Measurements of the electrical conductance of their skin, which can reveal levels of anxiety and nervousness, indicated that their emotions were subtly warning them against the bad decks after just ten turns.",
+                "They knew before they knew."
+            ],
+            ch01_unit05_1: [
+                "For millions of years, sea turtles would come to the beaches of Florida to spawn and their hatchlings would head toward the sea to live a life far away and to return to Florida years later.",
+                "It turns out that the way the young turtles knew to head toward the direction of the ocean was based on light glimmering off the sea at night.",
+                "The sea beautifully reflects the light of the moon and the stars, and for millions of years, a simple algorithm of \"head toward the light at night\" allowed the turtles to effectively head toward the sea to pursue an effective life strategy.",
+                "Well, then came Miami.",
+                "Miami and the other big cities on the coast of Florida are filled with lots of bright lights at night, so this led to an ecological disaster for the sea turtles.",
+                "Shaped by evolution to head toward light at night, hatchlings started toward the highways and cities by the millions meeting premature death instead of a long sea-dwelling life."
+            ],
+            ch01_unit05_2: [
+                "Those who migrate out of poor countries today need to have the money to afford the cost of travel and have the grit (or the advanced degrees) required to overcome a system of immigration control typically loaded against them.",
+                "For this reason, a lot of them bring exceptional talents, skills, ambition, patience, and stamina that help them become job creators, or raise children who will be job creators.",
+                "A report by the Center for American Entrepreneurship found that, in 2017, out of the largest five hundred US companies by revenue, 43 percent were founded or co-founded by immigrants or the children of immigrants.",
+                "Moreover, immigrant-founded firms account for 52 percent of the top twenty-five firms, 57 percent of the top thirty-five firms, and nine of the top thirteen most valuable brands.",
+                "Henry Ford was the son of an Irish immigrant.",
+                "Steve Jobs's biological father was from Syria.",
+                "Sergey Brin was born in Russia."
+            ],
+            ch01_unit05_3: [
+                "Traditionally, garbage is considered the detritus of consumer and industrial practices.",
+                "It is the stuff that is no longer useful, that we no longer wish to have in our homes or personal spaces, that we want to throw away.",
+                "Perhaps precisely due to the proliferation of trash in material space, it has arguably also become a resource something that has value and can be sold on at a profit.",
+                "Artists most often at the leading edge of rethinking materiality, value, and beauty are among the first social actors to have taken seriously the possibility of reusing trash to make new things.",
+                "Taking the discarded objects of others as found materials, many artists work with trash in order to create new aesthetic objects while at the same time making a commentary on the place of trash in the social and cultural world."
+            ],
+            ch03_unit08_1: [
+                "Role-playing is an extension of representational skills.",
+                "Children role-play when they use not only materials and objects but also voice and actions to represent others during play.",
+                "Infants and toddlers begin to play a role when they imitate adults' language, dress, or actions.",
+                "An older child expands on this role by imitating familiar roles, such as a parent or doctor.",
+                "The child uses gestures and language to communicate his understanding of what this role represents.",
+                "He uses the doctor kit or kitchen playthings as props to support his actions while he plays.",
+                "As he becomes familiar with other people and their roles, he may imitate them with the actions and verbalizations of a grocer, waiter, or firefighter.",
+                "Playing fantasy characters, such as a monster or a superhero, becomes common once a child is able to engage in more abstract thinking."
+            ],
+            ch03_unit08_2: [
+                "People are inherently social creatures, and in order to connect and regulate their social interactions, they must internalize their cultures.",
+                "But cultures cannot be internalized without language.",
+                "Indeed, language is the vehicle through which we learn about our social world, discover its rules and values, and express our personal natures, allowing us to connect with others, both in relationships of exchange and of caring.",
+                "Cultures themselves interact.",
+                "As far back as the origins of human history, groups of individuals sharing a common culture and language made contact with other groups, each unified by their own shared tongue.",
+                "Of great value was anyone who could ably facilitate those intergroup contacts those people who were multilingual.",
+                "Today we humans exist in a globally interconnected world."
+            ],
+            ch03_unit08_3: [
+                "To make art and design irresistible, the teacher must commit to providing opportunities that incite feelings of surprise and, thus motivational discovery and learning.",
+                "This teaching approach is exciting it allows the practitioner to consider what is tempting in learning, what drives an individual to find out and discover.",
+                "The teacher needs to remember what it is about learning that makes it irresistible, and then design their lessons, their spaces of learning and their teaching materials accordingly.",
+                "This is not teaching that rigidly conforms to an instructional, target-bound paradigm.",
+                "It is essential to provide classrooms that have no ceiling when creative minds are operating and finding out.",
+                "Classrooms of young children should be alive, dynamic and changeable, encouraged by a theme of the moment or an interest that pervades children's imaginations."
+            ]
+        };
+
+        let currentExercise = [];
+        let correctOrder = [];
+        let userOrder = [];
+        let selectedSentence = null;
+
+        const exerciseSelect = document.getElementById('exerciseSelect');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const checkBtn = document.getElementById('checkBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const exerciseArea = document.getElementById('exerciseArea');
+        const scrambledContainer = document.getElementById('scrambledContainer');
+        const orderedContainer = document.getElementById('orderedContainer');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const scoreElement = document.getElementById('score');
+        const feedback = document.getElementById('feedback');
+
+        exerciseSelect.addEventListener('change', function() {
+            const selectedExercise = this.value;
+            if (selectedExercise) {
+                loadExercise(selectedExercise);
+            }
+        });
+
+        shuffleBtn.addEventListener('click', shuffleSentences);
+        checkBtn.addEventListener('click', checkAnswer);
+        resetBtn.addEventListener('click', resetExercise);
+
+        function loadExercise(exerciseKey) {
+            currentExercise = [...exercises[exerciseKey]];
+            correctOrder = [...currentExercise];
+            userOrder = [];
+            selectedSentence = null;
+
+            shuffleSentences();
+            exerciseArea.style.display = 'block';
+            shuffleBtn.disabled = false;
+            resetBtn.disabled = false;
+            scoreDisplay.style.display = 'none';
+            hideFeedback();
+        }
+
+        function shuffleSentences() {
+            const shuffled = [...currentExercise];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+
+            displayScrambledSentences(shuffled);
+            createDropZones();
+            checkBtn.disabled = true;
+            userOrder = [];
+            selectedSentence = null;
+        }
+
+        function displayScrambledSentences(sentences) {
+            scrambledContainer.innerHTML = '';
+            sentences.forEach((sentence, index) => {
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'sentence-item';
+                sentenceDiv.textContent = sentence;
+                sentenceDiv.dataset.sentence = sentence;
+
+                sentenceDiv.addEventListener('click', function() {
+                    selectSentence(this);
+                });
+
+                scrambledContainer.appendChild(sentenceDiv);
+            });
+        }
+
+        function selectSentence(element) {
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
+            element.classList.add('selected');
+            selectedSentence = element;
+
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.classList.add('highlight');
+            });
+
+            showFeedback('선택된 문장을 배치할 위치를 클릭하세요!', 'correct');
+        }
+
+        function createDropZones() {
+            orderedContainer.innerHTML = '';
+            for (let i = 0; i < currentExercise.length; i++) {
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.textContent = `문장 ${i + 1}을 여기에 배치하세요`;
+                dropZone.dataset.position = i;
+
+                dropZone.addEventListener('click', function() {
+                    handleDropZoneClick(this);
+                });
+
+                orderedContainer.appendChild(dropZone);
+            }
+        }
+
+        function handleDropZoneClick(dropZone) {
+            if (!selectedSentence) {
+                showFeedback('먼저 왼쪽에서 문장을 선택하세요!', 'incorrect');
+                return;
+            }
+
+            const sentence = selectedSentence.dataset.sentence;
+            const position = parseInt(dropZone.dataset.position);
+
+            const sentenceDiv = document.createElement('div');
+            sentenceDiv.className = 'sentence-item';
+            sentenceDiv.textContent = sentence;
+            sentenceDiv.dataset.sentence = sentence;
+            sentenceDiv.dataset.position = position;
+
+            sentenceDiv.addEventListener('click', function() {
+                returnSentence(this);
+            });
+
+            dropZone.parentNode.replaceChild(sentenceDiv, dropZone);
+            selectedSentence.remove();
+            selectedSentence = null;
+
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
+            updateUserOrder();
+            hideFeedback();
+        }
+
+        function returnSentence(sentenceElement) {
+            const position = parseInt(sentenceElement.dataset.position);
+            const sentence = sentenceElement.dataset.sentence;
+
+            const dropZone = document.createElement('div');
+            dropZone.className = 'drop-zone';
+            dropZone.textContent = `문장 ${position + 1}을 여기에 배치하세요`;
+            dropZone.dataset.position = position;
+
+            dropZone.addEventListener('click', function() {
+                handleDropZoneClick(this);
+            });
+
+            sentenceElement.parentNode.replaceChild(dropZone, sentenceElement);
+
+            const newSentenceDiv = document.createElement('div');
+            newSentenceDiv.className = 'sentence-item';
+            newSentenceDiv.textContent = sentence;
+            newSentenceDiv.dataset.sentence = sentence;
+
+            newSentenceDiv.addEventListener('click', function() {
+                selectSentence(this);
+            });
+
+            scrambledContainer.appendChild(newSentenceDiv);
+
+            selectedSentence = null;
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
+            updateUserOrder();
+        }
+
+        function updateUserOrder() {
+            userOrder = [];
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            placedSentences.forEach(sentence => {
+                const position = parseInt(sentence.dataset.position);
+                userOrder[position] = sentence.dataset.sentence;
+            });
+
+            const hasEmptySlots = userOrder.includes(undefined) || userOrder.length !== currentExercise.length;
+            checkBtn.disabled = hasEmptySlots;
+        }
+
+        function checkAnswer() {
+            let correct = 0;
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            
+            placedSentences.forEach((sentence, index) => {
+                sentence.classList.remove('correct-sentence', 'incorrect-sentence');
+                const position = parseInt(sentence.dataset.position);
+                const userSentence = sentence.dataset.sentence;
+                const correctSentence = correctOrder[position];
+                
+                if (userSentence === correctSentence) {
+                    sentence.classList.add('correct-sentence');
+                    correct++;
+                } else {
+                    sentence.classList.add('incorrect-sentence');
+                }
+            });
+
+            const score = Math.round((correct / currentExercise.length) * 100);
+            scoreElement.textContent = score;
+            scoreDisplay.style.display = 'block';
+
+            if (score === 100) {
+                showFeedback('🎉 완벽합니다! 모든 문장을 올바르게 배열했습니다!', 'correct');
+            } else if (score >= 70) {
+                showFeedback(`👍 잘했습니다! ${correct}/${currentExercise.length}개 정답입니다.`, 'correct');
+            } else {
+                showFeedback(`💪 다시 한번 시도해보세요! ${correct}/${currentExercise.length}개 정답입니다.`, 'incorrect');
+            }
+        }
+
+        function resetExercise() {
+            const selectedExercise = exerciseSelect.value;
+            if (selectedExercise) {
+                loadExercise(selectedExercise);
+            }
+            hideFeedback();
+        }
+
+        function showFeedback(message, type) {
+            feedback.textContent = message;
+            feedback.className = `feedback ${type}`;
+        }
+
+        function hideFeedback() {
+            feedback.className = 'feedback';
+        }
+    </script>
+</body>
+</html>
